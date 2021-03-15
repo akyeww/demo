@@ -4,6 +4,9 @@ const canvasCtx = canvasElement.getContext('2d');
 
 const DEBUG = false;
 
+let curFilter = 0;
+const filterMode = ['None', 'Grayscale', 'Inverted', 'Complementary'];
+
 const constraint = {
     video: {
         width: { min: 1024, ideal: 1280, max: 1920 },
@@ -71,19 +74,18 @@ const addFilter = async () => {
     canvasCtx.restore();
 }
 
-let filterMode = 0;
 function filterImage() {
     let imgWidth = canvasElement.width;
     let imgHeight = canvasElement.height;
 
     canvasCtx.drawImage(video, 0, 0, imgWidth, imgHeight);
 
-    if (filterMode === 0) return;
+    if (filterMode[curFilter] === 'None') return;
 
     let imageData = canvasCtx.getImageData(0, 0, imgWidth, imgHeight);
 
-    switch (filterMode) {
-        case 1:
+    switch (filterMode[curFilter]) {
+        case 'Grayscale':
             // Grayscale
             // Same as: canvasElement.style.filter = "grayscale(100%)";
             for (let i = 0; i < imageData.data.length; i += 4) {
@@ -96,7 +98,7 @@ function filterImage() {
                 imageData.data[i + 2] = averageColour;
             }
             break;
-        case 2:
+        case 'Inverted':
             // Inverted colours
             // Same as: canvasElement.style.filter = "invert(100%)";
             for (let i = 0; i < imageData.data.length; i += 4) {
@@ -108,7 +110,7 @@ function filterImage() {
                 imageData.data[i + 2] = 255 - b;
             }
             break;
-        case 3:
+        case 'Complementary':
             // Complementary colours
             // Same as: canvasElement.style.filter = "hue-rotate(180deg)";
             for (let i = 0; i < imageData.data.length; i += 4) {
@@ -141,24 +143,10 @@ function resizeCanvas() {
 }
 
 function nextFilter() {
-    filterMode = (filterMode >= 3) ? 0 : filterMode + 1;
+    curFilter = (curFilter + 1 === filterMode.length) ? 0 : curFilter + 1;
 
-    let mode = '';
-    switch (filterMode) {
-        case 0:
-            mode = 'None';
-            break;
-        case 1:
-            mode = 'Grayscale';
-            break;
-        case 2:
-            mode = 'Inverted';
-            break;
-        case 3:
-            mode = 'Complementary';
-            break;
-    }
-    document.querySelector('.filter-button').innerHTML = `Filter: ${mode}`;
+    let text = `Filter: ${filterMode[curFilter]}`;
+    document.querySelector('.filter-button').innerHTML = text;
 }
 
 function pauseVideo() {
