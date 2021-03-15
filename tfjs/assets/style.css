@@ -1,0 +1,53 @@
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+html {
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	/* overflow: hidden; */
+}
+
+button {
+    font-family: inherit;
+    border: none;
+	outline: none;
+}
+
+.container > * {
+	position: absolute;
+}
+
+.input-video {
+	width: 0vw;
+	height: 0vh;
+	/* display: none; */
+}
+
+.output-canvas {
+	width: 100vw;
+	height: 100vh;
+	object-fit: cover;
+}
+
+.performance {
+	font-size: 2rem;
+	background-color: aliceblue;
+	border-radius: 5px;
+	margin: 15px;
+	padding: 5px 10px;
+	position: fixed;
+}
+
+.stop-button {
+	font-size: 32px;
+	border-radius: 10px;
+	padding: 15px;
+	position: fixed;
+	right: 150px;
+	bottom: 150px;
+}
