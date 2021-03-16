@@ -3,6 +3,8 @@
 }
 
 html {
+	line-height: 1.15;
+	-webkit-text-size-adjust: 100%;
 	box-sizing: border-box;
 	scroll-behavior: smooth;
 }
@@ -13,8 +15,8 @@ body {
 }
 
 button {
-    font-family: inherit;
-    border: none;
+	font-family: inherit;
+	border: none;
 	outline: none;
 }
 
