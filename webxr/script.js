@@ -70,7 +70,7 @@ async function activateXR() {
     });
 
     session.addEventListener("select", (event) => {
-        if (flower) {
+        if (reticle.visible && flower) {
             const clone = flower.clone();
             clone.position.copy(reticle.position);
             scene.add(clone);
@@ -150,12 +150,10 @@ async function activateXR() {
                 reticle.visible = true;
                 reticle.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z)
                 reticle.updateMatrixWorld(true);
-                if (allAnchors.size < 1) {
-                    let anchor = hitTestResults[0].createAnchor();
-                    allAnchors.add(anchor);
-                    console.log(anchor);
-                    console.log(allAnchors.size);
-                }
+                // if (allAnchors.size < 1) {
+                //     let anchor = hitTestResults[0].createAnchor();
+                //     allAnchors.add(anchor);
+                // }
             }
 
             // Render the scene with THREE.WebGLRenderer.
