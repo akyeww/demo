@@ -22,11 +22,10 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.domElement.style.position = 'absolute';
 renderer.domElement.style.top = '0px';
 renderer.domElement.style.left = '0px';
-// document.body.appendChild(renderer.domElement);
+document.body.appendChild(renderer.domElement);
 
 // Scene.
 const scene = new THREE.Scene();
-scene.visible = false
 
 // Camera.
 const camera = new THREE.Camera();
@@ -38,6 +37,7 @@ scene.add(light);
 
 const root = new THREE.Group();
 root.matrixAutoUpdate = false;
+root.visible = false;
 scene.add(root);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,14 +55,6 @@ arToolkitSource.init(function onReady() {
     setTimeout(function () {
         onResize()
     }, 1000);
-})
-
-// Handle resize
-window.addEventListener('resize', onResize)
-
-// Listener for end loading of NFT marker
-window.addEventListener('arjs-nft-loaded', function (ev) {
-    console.log(ev);
 })
 
 function onResize() {
@@ -111,21 +103,23 @@ const markerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
 //		Add an object in the scene
 //////////////////////////////////////////////////////////////////////////////////
 
-threeGLTFLoader.load(modelFile, (gltf) => {
-    model = gltf.scene.children[0];
-    model.name = 'Flamingo';
-    model.position.set(0, 0, -10);
-    root.add(model);
-
-    // Setup animation.
-    let animation = gltf.animations[0];
-    const mixer = new THREE.AnimationMixer(model);
-    mixers.push(mixer);
-    let action = mixer.clipAction(animation);
-    action.play();
-
-    animate()
-})
+const initModel = () => {
+    threeGLTFLoader.load(modelFile, (gltf) => {
+        model = gltf.scene.children[0];
+        model.name = 'Flamingo';
+        model.position.set(0, 0, -10);
+        root.add(model);
+    
+        // Setup animation.
+        let animation = gltf.animations[0];
+        const mixer = new THREE.AnimationMixer(model);
+        mixers.push(mixer);
+        let action = mixer.clipAction(animation);
+        action.play();
+    
+        animate();
+    })
+}
 
 //////////////////////////////////////////////////////////////////////////////////
 //		Render the whole thing on the page
@@ -148,6 +142,22 @@ const animate = () => {
 
     // Update scene.visible if the marker is seen
     scene.visible = camera.visible;
+    // console.info('looook', camera.visible)
+    let status = camera.visible ? "Found" : "Lost";
+    document.querySelector("#debug").innerHTML = status;
 
     renderer.render(scene, camera);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+//		Listeners
+//////////////////////////////////////////////////////////////////////////////////
+
+// Handle resize
+window.addEventListener('resize', onResize)
+
+// Listener for end loading of NFT marker
+window.addEventListener('arjs-nft-loaded', function (ev) {
+    console.log(ev);
+    initModel();
+})
