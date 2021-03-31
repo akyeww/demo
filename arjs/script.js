@@ -1,4 +1,3 @@
-
 //////////////////////////////////////////////////////////////////////////////////
 //		Init renderer, scene, camera, light
 //////////////////////////////////////////////////////////////////////////////////
@@ -109,15 +108,13 @@ const initModel = () => {
         model.name = 'Flamingo';
         model.position.set(0, 0, -10);
         root.add(model);
-    
+
         // Setup animation.
         let animation = gltf.animations[0];
         const mixer = new THREE.AnimationMixer(model);
         mixers.push(mixer);
         let action = mixer.clipAction(animation);
         action.play();
-    
-        animate();
     })
 }
 
@@ -141,7 +138,7 @@ const animate = () => {
     arToolkitContext.update(arToolkitSource.domElement)
 
     // Update scene.visible if the marker is seen
-    scene.visible = camera.visible;
+    root.visible = camera.visible;
     // console.info('looook', camera.visible)
     let status = camera.visible ? "Found" : "Lost";
     document.querySelector("#debug").innerHTML = status;
@@ -160,4 +157,5 @@ window.addEventListener('resize', onResize)
 window.addEventListener('arjs-nft-loaded', function (ev) {
     console.log(ev);
     initModel();
+    animate();
 })
