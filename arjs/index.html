@@ -1,78 +1,22 @@
+<!DOCTYPE html>
 <head>
-<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
-<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Demo</title>
+    <!-- three.js library -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.min.js" integrity="sha512-n8IpKWzDnBOcBhRlHirMZOUvEq2bLRMuJGjuVqbzUJwtTsgwOgK5aS0c1JA647XWYfqvXve8k3PtZdzpipFjgg==" crossorigin="anonymous"></script> -->
+    <script src="https://unpkg.com/three@0.126.1/build/three.js"></script>
+    <!-- three.js GLTFLoader -->
+    <script src="https://unpkg.com/three@0.126.1/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- AR.js library -->
+    <script src='https://raw.githack.com/AR-js-org/AR.js/3.3.1/three.js/build/ar-nft.js'></script>
 
-<style>
-  .arjs-loader {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .arjs-loader div {
-    text-align: center;
-    font-size: 1.25em;
-    color: white;
-  }
-</style>
+    <script type="module" src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
-<body style="margin : 0px; overflow: hidden;">
-	<script type="module">
-		let swapped = false;
-		const obj = document.querySelector('#obj');
-		const button = document.querySelector('.button');
-		button.addEventListener('click', swap);
-		function swap() {
-			if (swapped) {
-				obj.setAttribute('scale', '5 5 5');
-				swapped = false;
-			} else {
-				obj.setAttribute('scale', '10 10 10');
-				swapped = true;
-			}
-			console.log(`new swap state: ${swapped}`);
-			console.log('new scale:', obj.getAttribute('scale'));
-		}
-		console.log('check o:', obj.getAttribute('scale'));
-		console.log('check button:', button);
-	</script>
-  <!-- minimal loader shown until image descriptors are loaded -->
-  <div class="arjs-loader">
-    <div>Loading, please wait...</div>
-  </div>
-  <a-scene
-    vr-mode-ui="enabled: false;"
-    renderer="logarithmicDepthBuffer: true;"
-    embedded
-    arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
-  >
-    <!-- we use cors proxy to avoid cross-origin problems -->
-    <a-nft
-      type="nft"
-      url="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/trex-image/trex"
-      smooth="true"
-      smoothCount="10"
-      smoothTolerance=".01"
-      smoothThreshold="5"
-    >
-      <a-entity
-        id="obj"
-        gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
-        scale="5 5 5"
-        position="50 150 0"
-      >
-      </a-entity>
-    </a-nft>
-    <a-entity camera></a-entity>
-  </a-scene>
-    <button class="button" style="border-radius: 5px; padding:15px; font-size: 30px; position: fixed; bottom: 150px; right: 150px">Swapp</button>
+<body>
+    <div class="arjs-loader">
+        <div class="arjs-loader-spinner"></div>
+    </div>
 </body>
-
