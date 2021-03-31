@@ -114,9 +114,7 @@ const markerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
 threeGLTFLoader.load(modelFile, (gltf) => {
     model = gltf.scene.children[0];
     model.name = 'Flamingo';
-    model.position.z = -200;
-    model.position.x = 100;
-    model.position.y = 100;
+    model.position.set(0, 0, -10);
     root.add(model);
 
     // Setup animation.
